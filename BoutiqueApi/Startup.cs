@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BoutiqueApi.Configuration;
 using BoutiqueApi.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,7 @@ namespace BoutiqueApi
 
             services.AddControllers();
             services.AddSwaggerGen();
-         
+            services.AddAutoMapper(typeof(Mapperinitializer));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

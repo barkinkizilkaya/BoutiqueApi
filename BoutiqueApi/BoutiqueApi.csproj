@@ -15,6 +15,7 @@
     <None Remove="Repositories\" />
     <None Remove="Models\" />
     <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <None Remove="Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
@@ -31,5 +32,6 @@
     <Folder Include="IRepositories\" />
     <Folder Include="Repositories\" />
     <Folder Include="Models\" />
+    <Folder Include="Configuration\" />
   </ItemGroup>
 </Project>
