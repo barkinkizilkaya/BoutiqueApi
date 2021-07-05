@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using BoutiqueApi.Configuration;
 using BoutiqueApi.Data;
+using BoutiqueApi.IRepositories;
+using BoutiqueApi.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
@@ -31,7 +33,20 @@ namespace BoutiqueApi
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            services.AddControllers();
+            //For dependend objects
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            //services for controller
+            services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IDeviceRepository, DeviceRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ISizeRepository, SizeRepository>();
+
             services.AddSwaggerGen();
             services.AddAutoMapper(typeof(Mapperinitializer));
         }
