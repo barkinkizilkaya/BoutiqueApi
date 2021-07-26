@@ -5,39 +5,36 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BoutiqueApi.IRepositories;
 using BoutiqueApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoutiqueApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SizeController : ControllerBase
+    public class DeviceController : ControllerBase
     {
-
-        private readonly ISizeRepository _sizeRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public SizeController(ISizeRepository sizeRepository, IMapper mapper)
+        public DeviceController(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _sizeRepository = sizeRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllSizes(int ProductId)
+        public async Task<IActionResult> GetAllCategories()
         {
             try
             {
-                var sizes = await _sizeRepository.GetAll(ProductId);
-                var sizeResult = _mapper.Map<IList<SizeDTO>>(sizes);
-                return Ok(sizeResult);
+                var devices = await _categoryRepository.GetAll();
+                var devicesResult = _mapper.Map<IList<DeviceDTO>>(devices);
+                return Ok(devicesResult);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal Server Error");
             }
         }
-
     }
 }

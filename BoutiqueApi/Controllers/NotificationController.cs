@@ -5,39 +5,38 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BoutiqueApi.IRepositories;
 using BoutiqueApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoutiqueApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SizeController : ControllerBase
+    public class NotificationController : Controller
     {
 
-        private readonly ISizeRepository _sizeRepository;
+        private readonly INotificationRepository _notificationRepository;
         private readonly IMapper _mapper;
 
-        public SizeController(ISizeRepository sizeRepository, IMapper mapper)
+        public NotificationController(INotificationRepository notificationRepository, IMapper mapper)
         {
-            _sizeRepository = sizeRepository;
+            _notificationRepository = notificationRepository;
             _mapper = mapper;
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> GetAllSizes(int ProductId)
+        public async Task<IActionResult> GetAllNotification()
         {
             try
             {
-                var sizes = await _sizeRepository.GetAll(ProductId);
-                var sizeResult = _mapper.Map<IList<SizeDTO>>(sizes);
-                return Ok(sizeResult);
+                var notifications = await _notificationRepository.GetAll();
+                var notificationResult = _mapper.Map<NotificationDTO>(notifications);
+                return Ok(notificationResult);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal Server Error");
             }
         }
-
     }
 }

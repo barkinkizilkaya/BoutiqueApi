@@ -5,39 +5,36 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BoutiqueApi.IRepositories;
 using BoutiqueApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoutiqueApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SizeController : ControllerBase
+    public class ImageController : ControllerBase
     {
 
-        private readonly ISizeRepository _sizeRepository;
+        private readonly IImageRepository _imageRepository;
         private readonly IMapper _mapper;
 
-        public SizeController(ISizeRepository sizeRepository, IMapper mapper)
+        public ImageController(IImageRepository imageRepository, IMapper mapper)
         {
-            _sizeRepository = sizeRepository;
+            _imageRepository = imageRepository;
             _mapper = mapper;
         }
-
         [HttpGet]
-        public async Task<IActionResult> GetAllSizes(int ProductId)
+        public async Task<IActionResult> GetAllImagesByProduct(int ProductId)
         {
             try
             {
-                var sizes = await _sizeRepository.GetAll(ProductId);
-                var sizeResult = _mapper.Map<IList<SizeDTO>>(sizes);
-                return Ok(sizeResult);
+                var Images =  await _imageRepository.GetAll(ProductId);
+                var ImagesResult = _mapper.Map<ImageDTO>(Images);
+                return Ok(ImagesResult);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal Server Error");
-            }
+            } 
         }
-
     }
 }

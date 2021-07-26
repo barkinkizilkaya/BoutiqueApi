@@ -5,33 +5,32 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BoutiqueApi.IRepositories;
 using BoutiqueApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoutiqueApi.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
-    public class SizeController : ControllerBase
+    public class ProductController : ControllerBase
     {
-
-        private readonly ISizeRepository _sizeRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public SizeController(ISizeRepository sizeRepository, IMapper mapper)
+        public ProductController(IProductRepository productRepository, IMapper mapper)
         {
-            _sizeRepository = sizeRepository;
+            _productRepository = productRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllSizes(int ProductId)
+        public async Task<IActionResult> GetAllProducts()
         {
             try
             {
-                var sizes = await _sizeRepository.GetAll(ProductId);
-                var sizeResult = _mapper.Map<IList<SizeDTO>>(sizes);
-                return Ok(sizeResult);
+                var product = await _productRepository.GetAll();
+                var productResult = _mapper.Map<IList<ProductDTO>>(product);
+                return Ok(productResult);
             }
             catch (Exception ex)
             {
