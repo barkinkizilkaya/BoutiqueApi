@@ -13,21 +13,21 @@ namespace BoutiqueApi.Controllers
     [ApiController]
     public class DeviceController : ControllerBase
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IDeviceRepository _deviceRepository;
         private readonly IMapper _mapper;
 
-        public DeviceController(ICategoryRepository categoryRepository, IMapper mapper)
+        public DeviceController(IDeviceRepository deviceRepository, IMapper mapper)
         {
-            _categoryRepository = categoryRepository;
+            _deviceRepository = deviceRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<IActionResult> GetAllDevices()
         {
             try
             {
-                var devices = await _categoryRepository.GetAll();
+                var devices = await _deviceRepository.GetAll();
                 var devicesResult = _mapper.Map<IList<DeviceDTO>>(devices);
                 return Ok(devicesResult);
             }

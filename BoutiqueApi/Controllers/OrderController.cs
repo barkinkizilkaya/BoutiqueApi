@@ -11,7 +11,8 @@ namespace BoutiqueApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : Controller
+   
+    public class OrderController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
@@ -23,6 +24,7 @@ namespace BoutiqueApi.Controllers
         }
 
         [HttpGet]
+        [Route("GetOrders")]
         public async Task<IActionResult> GetOrders(string creator)
         {
             try
@@ -36,21 +38,21 @@ namespace BoutiqueApi.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
-
-        //[HttpGet]
-        //public async Task<IActionResult> GetOrderById(int Id)
-        //{
-        //    try
-        //    {
-        //        var order = await _orderRepository.Get(Id);
-        //        var orderResult = _mapper.Map<OrderDTO>(order);
-        //        return Ok(orderResult);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, "Internal Server Error");
-        //    }
-        //}
+        [HttpGet]
+        [Route("GetOrderBy")]
+        public async Task<IActionResult> GetOrderById(int Id)
+        {
+            try
+            {
+                var order = await _orderRepository.Get(Id);
+                var orderResult = _mapper.Map<OrderDTO>(order);
+                return Ok(orderResult);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
 
     }
 }
