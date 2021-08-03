@@ -33,7 +33,7 @@ namespace BoutiqueApi.Repositories
 
         public async Task<IList<Product>> GetAll()
         {
-            //changed
+            //changed lnknl
             IQueryable<Product> query = _context.Products.OrderBy(o => o.Id).Include(i => i.Images).Include(i=>i.Sizes);
             return await query.AsNoTracking().ToListAsync();
         }
