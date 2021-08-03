@@ -43,16 +43,16 @@ namespace BoutiqueApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSize([FromBody] SizeDTO sizeDTO)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
             try
             {
                 var size = _mapper.Map<Size>(sizeDTO);
                 await _sizeRepository.Insert(size);
-                return CreatedAtRoute("GetAllSizes", new { ProductId = size.ProductId, size });
+                return Ok(StatusCodes.Status201Created);
+              
             }
             catch (Exception ex)
             {
