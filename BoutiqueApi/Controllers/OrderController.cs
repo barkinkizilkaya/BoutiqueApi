@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BoutiqueApi.Data;
 using BoutiqueApi.IRepositories;
 using BoutiqueApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoutiqueApi.Controllers
@@ -53,6 +55,86 @@ namespace BoutiqueApi.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDTO)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var order = _mapper.Map<Order>(orderDTO);
+                await _orderRepository.Insert(order);
+                return Ok(StatusCodes.Status201Created);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "InternalServer Error. Please Try Again Later");
+            }
+        }
+
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateSize([FromBody] OrderDTO orderDTO)
+        {
+
+            if (!ModelState.IsValid || orderDTO.Id < 1)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+
+                var order = await _orderRepository.Get(orderDTO.Id);
+                if (order == null)
+                {
+                    return BadRequest("Submited data is Invalid");
+                }
+
+                _mapper.Map(orderDTO, order);
+                _orderRepository.Update(order);
+
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error. Try Again Later");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteOrder(int Id)
+        {
+            if (Id < 1)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var order = await _orderRepository.Get(Id);
+
+                if (order == null)
+                {
+                    return BadRequest("Submited Data Invalid");
+
+                }
+
+                await _orderRepository.Delete(Id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error, Please Try Again Later");
+            }
+
+        }
+
 
     }
 }

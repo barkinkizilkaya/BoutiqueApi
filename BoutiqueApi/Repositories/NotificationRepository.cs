@@ -24,9 +24,11 @@ namespace BoutiqueApi.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<Notification> Get(int Id)
+        public async Task<Notification> Get(int Id)
         {
-            throw new NotImplementedException();
+            IQueryable<Notification> query = _context.Notifications;
+            
+            return await query.AsNoTracking().FirstOrDefaultAsync(i => i.Id == Id);
         }
 
         public async Task<IList<Notification>> GetAll()

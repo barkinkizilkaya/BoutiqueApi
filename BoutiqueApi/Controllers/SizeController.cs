@@ -107,7 +107,6 @@ namespace BoutiqueApi.Controllers
                     return BadRequest("Submited Data Invalid");
 
                 }
-
                 await _sizeRepository.Delete(Id);
                 return NoContent();
             }

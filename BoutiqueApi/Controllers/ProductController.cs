@@ -104,7 +104,7 @@ namespace BoutiqueApi.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteSize(int Id)
+        public async Task<ActionResult> DeleteProduct(int Id)
         {
             if(Id<1)
             {

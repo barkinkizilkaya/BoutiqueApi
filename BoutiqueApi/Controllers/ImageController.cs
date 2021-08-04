@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BoutiqueApi.Data;
 using BoutiqueApi.IRepositories;
 using BoutiqueApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace BoutiqueApi.Controllers
 {
@@ -35,6 +38,52 @@ namespace BoutiqueApi.Controllers
             {
                 return StatusCode(500, "Internal Server Error");
             } 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateImage([FromBody] ImageDTO imageDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var image = _mapper.Map<Image>(imageDTO);
+                await _imageRepository.Insert(image);
+                return Ok(StatusCodes.Status201Created);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "InternalServer Error. Please Try Again Later");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteImage(int Id)
+        {
+            if (Id < 1)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var image = await _imageRepository.Get(Id);
+
+                if (image == null)
+                {
+                    return BadRequest("Submited Data Invalid");
+
+                }
+                await _imageRepository.Delete(Id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error, Please Try Again Later");
+            }
+
         }
     }
 }

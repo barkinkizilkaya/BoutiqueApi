@@ -36,5 +36,33 @@ namespace BoutiqueApi.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
+    
+        [HttpDelete]
+        public async Task<IActionResult> DeleteDevice(int Id)
+        {
+            if (Id < 1)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var device = await _deviceRepository.Get(Id);
+
+                if (device == null)
+                {
+                    return BadRequest("Submited Data Invalid");
+
+                }
+                await _deviceRepository.Delete(Id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error, Please Try Again Later");
+            }
+
+        }
     }
 }

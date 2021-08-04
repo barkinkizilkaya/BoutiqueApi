@@ -16,8 +16,7 @@ namespace BoutiqueApi.Repositories
         {
             _context = context;
         }
-
-       
+        
 
         public async Task Delete(int id)
         {
@@ -26,9 +25,11 @@ namespace BoutiqueApi.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<Image> Get(int Id)
+        public async Task<Image> Get(int Id)
         {
-            throw new NotImplementedException();
+            IQueryable<Image> query = _context.Images;
+
+            return await query.AsNoTracking().FirstOrDefaultAsync(i => i.Id == Id);
         }
 
         public async Task<IList<Image>> GetAll(int ProductId)
@@ -43,6 +44,7 @@ namespace BoutiqueApi.Repositories
           await  _context.Images.AddAsync(image);
           await  _context.SaveChangesAsync();
         }
+
 
         public void Update(Image image)
         {
