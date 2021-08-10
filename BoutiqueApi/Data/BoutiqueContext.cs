@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoutiqueApi.Data
 {
-    public class BoutiqueContext : DbContext
+    public class BoutiqueContext : IdentityDbContext
     {
         public BoutiqueContext(DbContextOptions options) : base(options)
         {
@@ -13,7 +14,6 @@ namespace BoutiqueApi.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Device> Devices { get; set; }
-
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Size> Sizes { get; set; }
